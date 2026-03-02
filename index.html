@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Món quà kỉ niệm ngày đặc biệt">
-    <title>Valentine's Day</title>
+    <meta name="description" content="Món quà  ngày đặc biệt của anh">
+    <title>Happy Birthday!</title>
     <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Nhạc phát khi click vào màn hình -->
@@ -22,7 +22,7 @@
                 <div class="envelope"></div>
                 <div class="front"></div>
                 <div class="card">
-                    <div class="text">Happy<br> Valentine's<br> Day!</div>
+                    <div class="text">Happy<br> Birthday!</div>
                 </div>
                 <div class="hearts">
                     <div class="one"></div>
@@ -40,10 +40,10 @@
     <section id="question-section" class="question-ui">
         <!-- Phần thay đổi ảnh liên tục bên file script.js -->
         <img id="main-img" src="" alt="Hình ảnh" />
-        <h2 id="main-text">Em có muốn xem bất ngờ này không ?</h2>
+        <h2 id="main-text">Anh có muốn xem bất ngờ này không ?</h2>
 
         <div class="button-wrapper" id="button-wrapper">
-            <button id="yesBtn" type="button">Dạ</button>
+            <button id="yesBtn" type="button">Có</button>
             <button id="noBtn" type="button">Hông</button>
         </div>
     </section>
@@ -51,102 +51,50 @@
     <!-- Phần tin nhắn, nếu muốn thêm dòng thì copy div như bên dưới và thay đổi chữ -->
     <section id="messages-section" class="hidden">
         <div class="messages-container">
-            <div class="message-line">Xin chào công chúa của anh</div>
-            <div class="message-line">Hôm nay là ngày đặc biệt</div>
-            <div class="message-line">Anh có chuẩn bị một món quà nhỏ</div>
+            <div class="message-line">Hôm nay là ngày của Boy</div>
+            <div class="message-line">Em có một vài lời chúc gửi đến Boy</div>
+            <div class="message-line">Mong anh lần này hãy hoan hỉ đón nhận nó lần cuối nhé</div>
             <div class="message-line">Đó chính là...</div>
         </div>
     </section>
 
-    <!-- Phần dòng thời gian -->
+    <!-- Phần sau khi hiện chữ xong: thay thế hoàn toàn "mốc kỷ niệm" bằng UI mới -->
     <section id="timeline-section">
-        <div class="timeline-header">
-            <h1>Valentine's Day</h1>
-            <div class="love-counter">
-                <p>Chúng ta đã yêu nhau được</p>
-                <h3 id="counter">0 ngày 0 giờ 0 phút 0 giây</h3>
+        <div class="hearts" id="hearts" aria-hidden="true"></div>
+
+        <div id="new-ui" class="new-ui hidden">
+            <div class="boxLetter">
+                <div class="formLetter">
+                    <div class="wrapperLetter">
+                        <div class="giftbox">
+                            <div class="img">
+                                <img class="framed-photo" src="images/anh10.jpg" alt="Ảnh" />
+                            </div>
+                        </div>
+                        <div class="textLetter">
+                            <h2></h2>
+                            <p class="contentLetter"></p>
+                        </div>
+                    </div>
+                    <button id="see-gift" class="see-gift-btn hidden" aria-label="Xem quà">Xem quà nè</button>
+                </div>
             </div>
         </div>
 
-        <!-- Phần khối lập phương ảnh 3D ảnh, muốn thay ảnh thì vào file style.css sửa trong phần .photo-face:nth-child(n) ở dưới -->
-        <div class="photo-container">
-            <div class="photo-cube-autorotate">
-                <div class="photo-cube">
-                    <div class="photo-face"></div>
-                    <div class="photo-face"></div>
-                    <div class="photo-face"></div>
-                    <div class="photo-face"></div>
-                    <div class="photo-face"></div>
-                    <div class="photo-face"></div>
-                </div>
+        <div id="gift-ui" class="gift-ui hidden">
+            <div id="heartImagesContainer" class="heart-images-container">
+                <audio id="myAudio">
+                    <source src="nhac.mp3" type="audio/mp3">
+                </audio>
             </div>
         </div>
 
-        <!-- Phần dòng thời gian kỷ niệm -->
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <!-- Thay đổi ngày , ảnh , và chữ bên dưới để phù hợp với kỷ niệm của bạn nhé ! -->
-                    <div class="timeline-date"> Ngày 11/02/2025</div>
-                    <div class="timeline-image">
-                        <img src="images/anh3.jpg" alt="" loading="lazy" />
-                    </div>
-                    <p>Ngày mình lần đầu gặp em, anh đã biết em là người đặc biệt</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <!-- Thay đổi ngày , ảnh , và chữ bên dưới để phù hợp với kỷ niệm của bạn nhé ! -->
-                    <div class="timeline-date">Ngày 20/02/2025</div>
-                    <div class="timeline-image">
-                        <img src="images/anh5.jpg" alt="" loading="lazy" />
-                    </div>
-                    <p>Ngày chúng ta đi xem phim và hẹn hò lần đầu....</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content"> 
-                    <!-- Thay đổi ngày , ảnh , và chữ bên dưới để phù hợp với kỷ niệm của bạn nhé ! -->
-                    <div class="timeline-date">Ngày 20/06/2025</div>
-                    <div class="timeline-image">
-                        <img src="images/anh7.jpg" alt="" loading="lazy" />
-                    </div>
-                    <p>Ngày anh hỏi: "Em làm người yêu anh nhé?" và em đồng ý...</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <!-- Thay đổi ngày , ảnh , và chữ bên dưới để phù hợp với kỷ niệm của bạn nhé ! -->
-                    <div class="timeline-date">Ngày 21/11/2025</div>
-                    <div class="timeline-image">
-                        <img src="images/anh9.jpg" alt="" loading="lazy" />
-                    </div>
-                    <p>Ngày chúng ta đi chơi với những kỉ niệm đẹp</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <!-- Thay đổi ngày , ảnh , và chữ bên dưới để phù hợp với kỷ niệm của bạn nhé ! -->
-                    <div class="timeline-date">Hôm nay</div>
-                    <div class="timeline-image">
-                        <img src="images/anh9.jpg" alt="" loading="lazy" />
-                    </div>
-                    <p>Hôm nay là ngày rất ý nghĩa đối với anh, em là món quà đặc biệt</p>
-                </div>
+        <div class="clock-container">
+            <div class="date" id="date"></div>
+            <div class="time">
+                <span id="hours">23</span>:<span id="minutes">59</span>:<span id="seconds">55</span>
             </div>
         </div>
-        <footer>
-            <p><strong>Made with by NgThanhS1</strong> 💕</p>
-        </footer>
     </section>
 
     <script src="lang.js"></script>
