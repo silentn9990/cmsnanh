@@ -466,7 +466,7 @@
 		}
 
 		// After 5 seconds of running images, switch to the final centered video.
-		giftTimeoutId = setTimeout(showFinalVideoUI, 5000);
+		giftTimeoutId = setTimeout(showFinalVideoUI, 8000);
 	}
 
 	function createRectangleImage() {
@@ -615,3 +615,4 @@
 		init();
 	}
 })();
+
