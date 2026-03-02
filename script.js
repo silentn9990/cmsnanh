@@ -9,6 +9,9 @@
 	let envShown = false;
 	let clockTimer = null;
 	let countdownTimer = null;
+	let giftStarted = false;
+	let giftIntervals = [];
+	let giftTimeoutId = null;
 
 	function el(id) {
 		return document.getElementById(id);
@@ -114,21 +117,40 @@
 	}
 
 	function initAudioOnFirstInteraction() {
-		const handler = () => {
-			const audio = el('myAudio');
-			if (audio) {
-				try {
-					audio.currentTime = 0;
-					audio.play();
-				} catch {
-					// ignore
+		const tryPlay = (audioEl, { reset } = { reset: false }) => {
+			if (!audioEl) return false;
+			try {
+				if (reset) audioEl.currentTime = 0;
+				const p = audioEl.play();
+				if (p && typeof p.then === 'function') {
+					p.catch(() => {
+						// ignore
+					});
 				}
+				return true;
+			} catch {
+				return false;
 			}
-			document.removeEventListener('click', handler);
-			document.removeEventListener('touchstart', handler);
 		};
+
+		const handler = () => {
+			const bgm = el('bgm');
+			const myAudio = el('myAudio');
+			// Try both; keep the handler until at least one play() is triggered.
+			const ok1 = tryPlay(bgm);
+			const ok2 = tryPlay(myAudio, { reset: true });
+			if (ok1 || ok2) {
+				document.removeEventListener('pointerdown', handler);
+				document.removeEventListener('click', handler);
+				document.removeEventListener('touchstart', handler);
+				document.removeEventListener('keydown', handler);
+			}
+		};
+
+		document.addEventListener('pointerdown', handler, { passive: true });
 		document.addEventListener('click', handler, { passive: true });
 		document.addEventListener('touchstart', handler, { passive: true });
+		document.addEventListener('keydown', handler, { passive: true });
 	}
 
 	function initBgmClickToPlay() {
@@ -262,37 +284,14 @@
 			if (idx === steps.length - 1) {
 				clearInterval(countdownTimer);
 				countdownTimer = null;
-				if (countdownEl) countdownEl.classList.add('hidden');
 
 				setTimeout(() => {
 					const clockContainer = document.querySelector('.clock-container');
 					if (clockContainer) clockContainer.classList.add('hidden');
-
-					const env = el('envelope-overlay');
-					if (!envShown && env) {
-						envShown = true;
-						env.classList.remove('hidden');
-						env.setAttribute('aria-hidden', 'false');
-
-						const clickable = env.querySelector('.letter') || env;
-						const openHandler = () => {
-							env.classList.add('hidden');
-							env.setAttribute('aria-hidden', 'true');
-							const ui = el('new-ui');
-							if (ui) ui.classList.remove('hidden');
-							startLetterUI();
-							switched = true;
-						};
-
-						clickable.addEventListener('click', openHandler, { once: true });
-						clickable.addEventListener(
-							'keydown',
-							(e) => {
-								if (e.key === 'Enter' || e.key === ' ') openHandler();
-							},
-							{ once: true }
-						);
-					}
+					const ui = el('new-ui');
+					if (ui) ui.classList.remove('hidden');
+					startLetterUI();
+					switched = true;
 				}, 800);
 			}
 		}, 1000);
@@ -343,29 +342,131 @@
 	}
 
 	const heartImages = [
-		'img/anh1.jpg',
-		'img/anh2.jpg',
-		'img/anh3.jpg',
-		'img/anh4.jpg',
-		'img/anh5.jpg',
-		'img/anh6.jpg',
-		'img/anh7.jpg',
-		'img/anh8.jpg',
-		'img/anh9.jpg',
-		'img/anh10.jpg'
+		'images/anh1.jpg',
+		'images/anh2.jpg',
+		'images/anh3.jpg',
+		'images/anh4.jpg',
+		'images/anh5.jpg',
+		'images/anh6.jpg',
+		'images/anh7.jpg',
+		'images/anh8.jpg',
+		'images/anh9.jpg',
+		'images/anh10.jpg',
+		'images/anh11.jpg',
+		'images/anh12.jpg',
+		'images/anh13.jpg',
+		'images/anh14.jpg'
 	];
 
+	function stopGiftSpawners() {
+		giftIntervals.forEach((id) => clearInterval(id));
+		giftIntervals = [];
+		if (giftTimeoutId) {
+			clearTimeout(giftTimeoutId);
+			giftTimeoutId = null;
+		}
+	}
+
+	function showFinalVideoUI() {
+		stopGiftSpawners();
+
+		const container = el('heartImagesContainer');
+		if (container) {
+			container.querySelectorAll('img.heart-img-scroll').forEach((n) => n.remove());
+		}
+
+		const audio = el('myAudio');
+		if (audio) {
+			try {
+				audio.pause();
+			} catch {
+				// ignore
+			}
+		}
+
+		const gift = el('gift-ui');
+		if (gift) gift.classList.add('hidden');
+		const videoUi = el('video-ui');
+		if (videoUi) videoUi.classList.remove('hidden');
+
+		const video = el('finalVideo');
+		if (video) {
+			try {
+				const isMobile = window.matchMedia('(max-width: 640px)').matches;
+
+				video.currentTime = 0;
+				// On mobile we want a fullscreen-like experience.
+				video.playsInline = !isMobile;
+				video.controls = true;
+				// Autoplay may be blocked after a delay; try unmuted first, then fallback to muted.
+				video.muted = false;
+				const p = video.play();
+				if (p && typeof p.catch === 'function') {
+					p.catch(() => {
+						try {
+							video.muted = true;
+							video.play();
+						} catch {
+							// ignore
+						}
+					});
+				}
+
+				if (isMobile) {
+					// Best-effort fullscreen. Some browsers (notably iOS Safari) may block
+					// programmatic fullscreen unless it happens directly in a user gesture.
+					try {
+						if (typeof video.webkitEnterFullscreen === 'function') {
+							video.webkitEnterFullscreen();
+						} else if (typeof video.requestFullscreen === 'function') {
+							video.requestFullscreen();
+						} else if (videoUi && typeof videoUi.requestFullscreen === 'function') {
+							videoUi.requestFullscreen();
+						}
+					} catch {
+						// ignore
+					}
+				}
+			} catch {
+				// ignore
+			}
+		}
+	}
+
 	function startGiftExperience() {
+		if (giftStarted) return;
+		giftStarted = true;
+
+		// Clear any previous intervals just in case
+		stopGiftSpawners();
+
+		// Ensure container exists and remove any leftover images
+		const container = el('heartImagesContainer');
+		if (container) {
+			container.querySelectorAll('img.heart-img-scroll').forEach((n) => n.remove());
+		}
+
+		// Immediate burst so user sees images right after clicking "Xem quà"
+		for (let i = 0; i < 6; i++) setTimeout(createRectangleImage, i * 120);
+		for (let i = 0; i < 8; i++) setTimeout(() => createScrollingHeartImage({ heartShape: i % 3 === 0 }), i * 100);
+
 		startScrollingHeartImages();
 		startRectangleImages();
 		const audio = el('myAudio');
 		if (audio) {
 			try {
-				if (audio.paused) audio.play();
+				audio.muted = false;
+				if (audio.paused) {
+					audio.currentTime = 0;
+					audio.play();
+				}
 			} catch {
 				// ignore
 			}
 		}
+
+		// After 5 seconds of running images, switch to the final centered video.
+		giftTimeoutId = setTimeout(showFinalVideoUI, 5000);
 	}
 
 	function createRectangleImage() {
@@ -374,6 +475,7 @@
 		const img = document.createElement('img');
 		img.src = heartImages[Math.floor(Math.random() * heartImages.length)];
 		img.className = 'heart-img-scroll';
+		img.style.left = '-190px';
 		img.style.top = Math.random() * 95 + 'vh';
 		const duration = 5 + Math.random() * 3;
 		img.style.animationDuration = duration + 's';
@@ -387,6 +489,7 @@
 		const img = document.createElement('img');
 		img.src = heartImages[Math.floor(Math.random() * heartImages.length)];
 		img.className = 'heart-img-scroll';
+		img.style.left = '-190px';
 		img.style.top = Math.random() * 95 + 'vh';
 		const duration = 6 + Math.random() * 3;
 		img.style.animationDuration = duration + 's';
@@ -406,7 +509,7 @@
 		const initialCount = isMobile ? (isLandscape ? 16 : 6) : 13;
 		const intervalTime = isMobile ? (isLandscape ? 400 : 1200) : 550;
 		for (let i = 0; i < initialCount; i++) setTimeout(createRectangleImage, i * intervalTime);
-		setInterval(createRectangleImage, intervalTime);
+		giftIntervals.push(setInterval(createRectangleImage, intervalTime));
 	}
 
 	function startScrollingHeartImages() {
@@ -417,7 +520,7 @@
 		for (let i = 0; i < initialCount; i++) {
 			setTimeout(() => createScrollingHeartImage({ heartShape: i % 3 === 0 }), i * intervalTime);
 		}
-		setInterval(() => createScrollingHeartImage({ heartShape: Math.random() < 0.33 }), intervalTime);
+		giftIntervals.push(setInterval(() => createScrollingHeartImage({ heartShape: Math.random() < 0.33 }), intervalTime));
 	}
 
 	function startReplacementUI() {
@@ -442,6 +545,19 @@
 		if (ui) ui.classList.add('hidden');
 		const gift = el('gift-ui');
 		if (gift) gift.classList.add('hidden');
+		const videoUi = el('video-ui');
+		if (videoUi) videoUi.classList.add('hidden');
+		const video = el('finalVideo');
+		if (video) {
+			try {
+				video.pause();
+				video.currentTime = 0;
+			} catch {
+				// ignore
+			}
+		}
+		giftStarted = false;
+		stopGiftSpawners();
 
 		const clockContainer = document.querySelector('.clock-container');
 		if (clockContainer) clockContainer.classList.remove('hidden');
