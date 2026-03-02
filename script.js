@@ -135,11 +135,9 @@
 
 		const handler = () => {
 			const bgm = el('bgm');
-			const myAudio = el('myAudio');
-			// Try both; keep the handler until at least one play() is triggered.
-			const ok1 = tryPlay(bgm);
-			const ok2 = tryPlay(myAudio, { reset: true });
-			if (ok1 || ok2) {
+			// Keep the handler until play() is triggered.
+			const ok = tryPlay(bgm);
+			if (ok) {
 				document.removeEventListener('pointerdown', handler);
 				document.removeEventListener('click', handler);
 				document.removeEventListener('touchstart', handler);
@@ -375,15 +373,6 @@
 			container.querySelectorAll('img.heart-img-scroll').forEach((n) => n.remove());
 		}
 
-		const audio = el('myAudio');
-		if (audio) {
-			try {
-				audio.pause();
-			} catch {
-				// ignore
-			}
-		}
-
 		const gift = el('gift-ui');
 		if (gift) gift.classList.add('hidden');
 		const videoUi = el('video-ui');
@@ -452,20 +441,17 @@
 
 		startScrollingHeartImages();
 		startRectangleImages();
-		const audio = el('myAudio');
-		if (audio) {
+		// Keep bgm playing across the entire experience.
+		const bgm = el('bgm');
+		if (bgm) {
 			try {
-				audio.muted = false;
-				if (audio.paused) {
-					audio.currentTime = 0;
-					audio.play();
-				}
+				if (bgm.paused) bgm.play();
 			} catch {
 				// ignore
 			}
 		}
 
-		// After 5 seconds of running images, switch to the final centered video.
+		// After ~8 seconds of running images, switch to the final centered video.
 		giftTimeoutId = setTimeout(showFinalVideoUI, 8000);
 	}
 
@@ -527,15 +513,7 @@
 		const timeline = el('timeline-section');
 		if (timeline) timeline.style.display = 'flex';
 
-		// Stop old bgm if it was started earlier
-		const bgm = el('bgm');
-		if (bgm) {
-			try {
-				bgm.pause();
-			} catch {
-				// ignore
-			}
-		}
+		// Keep bgm running (don't pause when switching sections)
 
 		initAudioOnFirstInteraction();
 		spawnFloatingHearts();
@@ -615,4 +593,3 @@
 		init();
 	}
 })();
-
