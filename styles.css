@@ -398,7 +398,9 @@ body {
 /* Mobile: taller by default, but still fits viewport so it stays centered */
 @media (max-width: 640px) {
     #new-ui .formLetter {
-        height: min(480px, 86vh);
+        height: auto;
+        min-height: 92vh;
+        padding: 18px 14px 76px;
     }
 }
 
@@ -414,10 +416,33 @@ body {
     justify-content: space-between;
 }
 
+@media (max-width: 640px) {
+    #new-ui .wrapperLetter {
+        height: auto;
+        overflow: visible;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 12px;
+        padding-top: 6px;
+    }
+}
+
 #new-ui .giftbox {
     position: relative;
     width: 32%;
     height: 100%;
+}
+
+@media (max-width: 640px) {
+    #new-ui .giftbox {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 0 0;
+    }
 }
 
 #new-ui .giftbox .img {
@@ -426,6 +451,15 @@ body {
     bottom: 18px;
     right: 15px;
     z-index: 20;
+}
+
+@media (max-width: 640px) {
+    #new-ui .giftbox .img {
+        position: relative;
+        width: 150px;
+        bottom: auto;
+        right: auto;
+    }
 }
 
 #new-ui .giftbox img {
@@ -447,11 +481,27 @@ body {
     overflow-y: auto;
 }
 
+@media (max-width: 640px) {
+    #new-ui .textLetter {
+        padding-left: 0;
+        overflow: visible;
+        -webkit-user-select: text;
+        user-select: text;
+    }
+}
+
 #new-ui .textLetter h2 {
     font-size: 36px;
     text-align: left;
     color: #f36c9d;
     margin: 0;
+}
+
+@media (max-width: 640px) {
+    #new-ui .textLetter h2 {
+        font-size: 26px;
+        line-height: 1.2;
+    }
 }
 
 #new-ui .textLetter .contentLetter {
@@ -462,6 +512,15 @@ body {
     margin-top: 12px;
     color: #fd86b2;
     text-shadow: 0 1px 4px rgba(255, 160, 200, .25);
+}
+
+@media (max-width: 640px) {
+    #new-ui .textLetter .contentLetter {
+        font-size: 16px;
+        line-height: 1.7;
+        margin-top: 10px;
+        padding-right: 0;
+    }
 }
 
 .see-gift-btn {
