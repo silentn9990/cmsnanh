@@ -303,7 +303,8 @@
 
 		const title = 'Happy Birthday Anh!';
 		const body =
-			'Hello Everyone Hà Thanh Sơn!Em đã suy nghĩ rất nhiều mới quyết định viết những dòng này.Có lẽ đây là lần cuối cùng em cho phép mình nhắc đến anh bằng tất cả những dịu dàng còn sót lại.Em đã thầm nghĩ sinh nhật năm nay em vẫn sẽ ở bên cạnh anh,vẫn là người đầu tiên chúc anh lúc 0 giờ.Em đã chuẩn bị quà cho anh từ năm ngoái,Tết này Em rất mong gặp lại anh nhưng em không đủ can đảm và em thấy hình như anh cũng không muốn nên em hèn lắm chẳng biết anh có đang giữ nó không hay nó đã lạc đâu rồi..Em không trách anh. Cũng không trách mình. Chỉ là đôi khi nghĩ lại, em vẫn tự hỏi nếu ngày đó em không buông tay trước, thì hôm nay có khác không..đến lúc em trưởng thành như ngày hôm nay rồi,Năm nay hầu như em đạt được gần hết tất cả chỉ là không có anh thôi.Sinh nhật này, em không ở cạnh anh nữa.Và có lẽ những sinh nhật sau này cũng vậy.Mong anh tìm được một người có thể ở bên anh đến cuối con đường điều mà em đã không làm được.Cảm ơn anh vì đã  xuất hiện trong cuộc sống em và dạy em rất nhiều thứ để có một cô gái đầy mạnh mẽ như ngày hôm nay cảm ơn anh nhiều nhé, Dấu yêu của em bốn mùa Xuân Hạ Thu Đông phải thật hạnh phúc và bình an nha<br> ❤— Puka —';
+			'Hello Everyone Hà Thanh Sơn!Em đã suy nghĩ rất nhiều mới quyết định viết những dòng này.Có lẽ đây là lần cuối cùng em cho phép mình nhắc đến anh bằng tất cả những dịu dàng còn sót lại.Em đã thầm nghĩ sinh nhật năm nay em vẫn sẽ ở bên cạnh anh,vẫn là người đầu tiên chúc anh lúc 0 giờ.Em đã chuẩn bị quà cho anh từ năm ngoái,Tết này Em rất mong gặp lại anh nhưng em không đủ can đảm và em thấy hình như anh cũng không muốn nên em hèn lắm chẳng biết anh có đang giữ nó không hay nó đã lạc đâu rồi..Em không trách anh. Cũng không trách mình. Chỉ là đôi khi nghĩ lại, em vẫn tự hỏi nếu ngày đó em không buông tay trước, thì hôm nay có khác không..đến lúc em trưởng thành như ngày hôm nay rồi,Năm nay hầu như em đạt được gần hết tất cả chỉ là không có anh thôi.Sinh nhật này, em không ở cạnh anh nữa.Và có lẽ những sinh nhật sau này cũng vậy.Mong anh tìm được một người có thể ở bên anh đến cuối con đường điều mà em đã không làm được.Cảm ơn anh vì đã  xuất hiện trong cuộc sống em và dạy em rất nhiều thứ để có một cô gái đầy mạnh mẽ như ngày hôm nay cảm ơn anh nhiều nhé, Dấu yêu của em bốn mùa Xuân Hạ Thu Đông phải thật hạnh phúc và bình an nha'
+			'❤— Puka —';
 
 		h2El.textContent = '';
 		pEl.textContent = '';
@@ -593,4 +594,5 @@
 		init();
 	}
 })();
+
 
