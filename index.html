@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy birthday to me</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="hearts" id="hearts"></div>
+    <div id="envelope-overlay" class="envelope-overlay hidden">
+        <div id="castle">
+            <div class="letter hover-animation" aria-label="Nhấn để mở thư">
+                <div class="valentines">
+                    <div class="envelope"></div>
+                    <div class="front"></div>
+                    <div class="card">
+                        <div class="text">Happy</br> Birthday</div>
+                        <div class="heart"></div>
+                    </div>
+                    <div class="hearts">
+                        <div class="one"></div>
+                        <div class="two"></div>
+                        <div class="three"></div>
+                        <div class="four"></div>
+                        <div class="five"></div>
+                    </div>
+                </div>
+                <div class="shadow"></div>
+            </div>
+        </div>
+    </div>
+    <div id="countdown" class="countdown hidden">
+        <div class="cd-number" id="cd-number">5</div>
+    </div>
+    <div id="new-ui" class="new-ui hidden">
+        <div class="boxLetter">
+            <div class="formLetter">
+                <div class="wrapperLetter">
+                    <div class="giftbox">
+                        <div class="img">
+                            <img class="framed-photo" src="img/sn.png" alt="Ảnh" />
+                        </div>
+                    </div>
+                        <div class="textLetter">
+                            <h2></h2>
+                            <p class="contentLetter"></p>
+                        </div>
+                </div>
+                    <button id="see-gift" class="see-gift-btn hidden" aria-label="Xem quà">Xem quà nè</button>
+            </div>
+        </div>
+    </div>
+        <div id="gift-ui" class="gift-ui hidden">
+            <div id="heartImagesContainer" class="heart-images-container">
+                <audio id="myAudio">
+                    <source src="nhac.mp3" type="audio/mp3">
+                </audio>
+            </div>
+        </div>
+    <div class="clock-container">
+        <div class="date" id="date"></div>
+        <div class="time">
+            <span id="hours">23</span>:<span id="minutes">59</span>:<span id="seconds">55</span>
+        </div>
+    </div>
+
+        <script src="lang.js"></script>
+        <script>
+            (function initAudioOnFirstInteraction(){
+                const handler = () => {
+                    const audio = document.getElementById('myAudio');
+                    if (audio) {
+                        try {
+                            audio.currentTime = 0;
+                            audio.play();
+                        } catch (e) {}
+                    }
+                    document.removeEventListener('click', handler);
+                    document.removeEventListener('touchstart', handler);
+                };
+                document.addEventListener('click', handler, { passive: true });
+                document.addEventListener('touchstart', handler, { passive: true });
+            })();
+        </script>
+</body>
+
+</html>
